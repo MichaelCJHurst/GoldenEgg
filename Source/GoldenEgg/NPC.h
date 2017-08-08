@@ -20,6 +20,11 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision)
+		class USphereComponent* Proxsphere;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
+		FString NPCMessage;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

@@ -13,8 +13,10 @@ UCLASS()
 class GOLDENEGG_API AMyHUD : public AHUD
 {
 	GENERATED_BODY()
-	
-	
-	
-	
+	// Font for the HUD
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HUDFont)
+		UFont* hudFont;
+	// Draw to the HUD
+	virtual void DrawHUD() override;
 };
