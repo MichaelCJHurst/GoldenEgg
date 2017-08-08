@@ -29,6 +29,61 @@ void AAvatar::Tick(float DeltaTime)
 void AAvatar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	// Bind the mouse movement
+	InputComponent->BindAxis("Pitch", this, &AAvatar::Pitch);
+	InputComponent->BindAxis("Yaw", this, &AAvatar::Yaw);
+	// Bind the keyboard movement
+	InputComponent->BindAxis("Forward", this, &AAvatar::MoveForward);
+	InputComponent->BindAxis("Backward", this, &AAvatar::MoveBackward);
+	InputComponent->BindAxis("Left", this, &AAvatar::MoveLeft);
+	InputComponent->BindAxis("Right", this, &AAvatar::MoveRight);
 }
 
+// Pitch
+void AAvatar::Pitch(float amount)
+{
+	AddControllerYawInput(200.f * amount * GetWorld()->GetDeltaSeconds());
+}
+
+// Yaw
+void AAvatar::Yaw(float amount)
+{
+	AddControllerPitchInput(200.f * amount * GetWorld()->GetDeltaSeconds());
+}
+
+// Forward movement
+void AAvatar::MoveForward(float amount)
+{
+	// Only enter if there is a controller, and there is an amount
+	if (Controller && amount) {
+		FVector forwards = GetActorForwardVector();
+		AddMovementInput(forwards, amount);
+	}
+}
+
+// Backwards movement
+void AAvatar::MoveBackward(float amount)
+{
+	if (Controller && amount) {
+		FVector backwards = -GetActorForwardVector();
+		AddMovementInput(backwards, amount);
+	}
+}
+
+// Left movement
+void AAvatar::MoveLeft(float amount)
+{
+	if (Controller && amount) {
+		FVector backwards = -GetActorRightVector();
+		AddMovementInput(backwards, amount);
+	}
+}
+
+// Right movement
+void AAvatar::MoveRight(float amount)
+{
+	if (Controller && amount) {
+		FVector backwards = GetActorRightVector();
+		AddMovementInput(backwards, amount);
+	}
+}

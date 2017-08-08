@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Components/InputComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Avatar.generated.h"
@@ -25,7 +26,12 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
-	
+	// mouse movement
+	void Pitch(float amount);
+	void Yaw(float yaw);
+	// keyboard movement
+	void MoveForward(float amount);
+	void MoveBackward(float amount);
+	void MoveLeft(float amount);
+	void MoveRight(float amount);
 };
