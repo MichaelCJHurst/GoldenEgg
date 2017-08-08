@@ -8,7 +8,8 @@ AAvatar::AAvatar()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	// Defaults for the values of health
+	Health = MaxHealth = 100;
 }
 
 // Called when the game starts or when spawned

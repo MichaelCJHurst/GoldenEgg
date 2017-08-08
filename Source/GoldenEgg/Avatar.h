@@ -21,9 +21,13 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	// Health and the MaxHealth
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerProperties)
+		float Health;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerProperties)
+		float MaxHealth;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// mouse movement

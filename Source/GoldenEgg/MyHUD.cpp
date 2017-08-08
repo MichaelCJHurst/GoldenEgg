@@ -2,10 +2,8 @@
 
 #include "MyHUD.h"
 
-void AMyHUD::DrawHUD()
+void AMyHUD::DrawMessages()
 {
-	// Call the superclass first
-	Super::DrawHUD();
 	// Draw some text, to check it works
 	// DrawText("Here is some text", FLinearColor::White, 10, 10, hudFont);
 	// Iterate from the back to the front of the list, so if an item times out, there
@@ -18,6 +16,16 @@ void AMyHUD::DrawHUD()
 
 		float messageH = outputHeight + 2.f * pad;
 		float x = 0.f, y = c * messageH;
+		// Draw the texture, if there is one
+		if (messages[c].tex)
+		{
+			DrawTexture(messages[c].tex, x, y, messageH, messageH, 0, 0, 1, 1);
+		}
+		else
+		{
+			DrawRect(FLinearColor::Red, x, y, messageH, messageH);
+		}
+		x += messageH;
 		// Draw the background
 		DrawRect(messages[c].backColour, x, y, Canvas->SizeX, messageH);
 		// Draw the message
@@ -30,6 +38,31 @@ void AMyHUD::DrawHUD()
 			messages.RemoveAt(c);
 		}
 	}
+}
+
+void AMyHUD::DrawHUD()
+{
+	// Call the superclass first
+	Super::DrawHUD();
+	// Update the screen dimensions
+	dims.X = Canvas->SizeX;
+	dims.Y = Canvas->SizeY;
+	// Draw the messages and health bar
+	DrawMessages();
+	DrawHealthBar();
+}
+
+void AMyHUD::DrawHealthBar()
+{
+	// Draw the healthbar.
+	AAvatar *avatar = Cast<AAvatar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+
+	float barWidth = 200, barHeight = 50, barPad = 12, barMargin = 50;
+	float percHp = avatar->Health / avatar->MaxHealth;
+	DrawRect(FLinearColor(0, 0, 0, 1), Canvas->SizeX - barWidth - barPad - barMargin,
+		Canvas->SizeY - barHeight - barPad - barMargin, barWidth + 2 * barPad, barHeight + 2 * barPad);
+	DrawRect(FLinearColor(1 - percHp, percHp, 0, 1), Canvas->SizeX - barWidth - barMargin,
+		Canvas->SizeY - barHeight - barMargin, barWidth*percHp, barHeight);
 }
 
 void AMyHUD::AddMessage(Message msg)

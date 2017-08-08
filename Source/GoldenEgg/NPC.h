@@ -24,6 +24,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	// NPC's image
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
+		UTexture2D* Face;
 	// The name of this NPC
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
 		FString NPCName;
