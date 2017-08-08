@@ -2,7 +2,11 @@
 
 #pragma once
 
+#include "Avatar.h"
+#include "GameModeGoldenEgg.h"
+#include "MyHUD.h"
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Character.h"
 #include "NPC.generated.h"
 
@@ -13,18 +17,22 @@ class GOLDENEGG_API ANPC : public ACharacter
 
 public:
 	// Sets default values for this character's properties
-	ANPC();
+	ANPC(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision)
-		class USphereComponent* Proxsphere;
+	// The NPC message
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
 		FString NPCMessage;
-
+	// Proximity sphere
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision)
+		class USphereComponent* ProxSphere;
+	// Triggered when the sphere is messed with
+	UFUNCTION(BlueprintNativeEvent, Category = "Collision")
+		void Prox(class UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
