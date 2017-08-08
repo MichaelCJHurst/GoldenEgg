@@ -24,6 +24,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	// The name of this NPC
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
+		FString NPCName;
 	// The NPC message
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCMessage)
 		FString NPCMessage;

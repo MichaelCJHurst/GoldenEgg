@@ -7,7 +7,7 @@ void AMyHUD::DrawHUD()
 	// Call the superclass first
 	Super::DrawHUD();
 	// Draw some text, to check it works
-	DrawText("Here is some text", FLinearColor::White, 10, 10, hudFont);
+	// DrawText("Here is some text", FLinearColor::White, 10, 10, hudFont);
 	// Iterate from the back to the front of the list, so if an item times out, there
 	// won't be any issues
 	for (int c = messages.Num() - 1; c >= 0; c--)

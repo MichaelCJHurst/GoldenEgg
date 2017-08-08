@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "NPC.h"
-#include "Runtime/Engine/Classes/Engine/Engine.h"
+//#include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
 // Sets default values
@@ -39,7 +39,7 @@ void ANPC::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ANPC::Prox_Implementation(class UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Yellow, TEXT("Collision"));
+	//GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Yellow, TEXT("Collision"));
 	// If the overlapped actor isn't the player, return
 	if (Cast<AAvatar>(OtherActor) == nullptr)
 	{
@@ -51,6 +51,6 @@ void ANPC::Prox_Implementation(class UPrimitiveComponent* OverlappedComp, AActor
 	if (PController)
 	{
 		AMyHUD * hud = Cast<AMyHUD>(PController->GetHUD());
-		hud->AddMessage(Message(NPCMessage, 5.f, FColor::White, FColor::Black));
+		hud->AddMessage(Message(NPCName + FString(" : ") + NPCMessage, 5.f, FColor::White, FColor::Black));
 	}
 }
