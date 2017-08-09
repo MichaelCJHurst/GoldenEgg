@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Avatar.h"
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
 #include "Runtime/Engine/Classes/Engine/Canvas.h"
@@ -11,7 +10,7 @@
 
 struct Message
 {
-	UTexture* tex;
+	UTexture2D* tex;
 	FString message;
 	float time;
 	FColor fontColour;
@@ -36,13 +35,60 @@ struct Message
 		backColour = iBackColour;
 	}
 
-	Message(UTexture* iTex, FString iMessage, float iTime, FColor iFontColour, FColor iBackColour)
+	Message(UTexture2D* iTex, FString iMessage, float iTime, FColor iFontColour, FColor iBackColour)
 	{
 		tex = iTex;
 		message = iMessage;
 		time = iTime;
 		fontColour = iFontColour;
 		backColour = iBackColour;
+	}
+};
+struct Icon
+{
+	FString name;
+	UTexture2D* tex;
+
+	Icon()
+	{
+		name = "UNKNOWN ICON";
+		tex = 0;
+	}
+
+	Icon(FString& iName, UTexture2D* iTex)
+	{
+		name = iName;
+		tex = iTex;
+	}
+};
+struct Widget
+{
+	Icon icon;
+	FVector2D pos, size;
+	
+	Widget(Icon iIcon)
+	{
+		icon = iIcon;
+	}
+
+	float left()
+	{
+		return pos.X;
+	}
+
+	float right()
+	{
+		return pos.X + size.X;
+	}
+
+	float top()
+	{
+		return pos.Y;
+	}
+
+	float bottom()
+	{
+		return pos.Y + size.Y;
 	}
 };
 /**
@@ -58,13 +104,16 @@ public:
 		UFont* hudFont;
 	// An array of messages to display
 	TArray<Message> messages;
+	TArray<Widget> widgets;
 	// This is for the screen dimensions
 	FVector2D dims;
-	// Add a message
+	// Add a message and widget
 	void AddMessage(Message msg);
+	void AddWidget(Widget widget);
 	// Functions for drawing the messages and the health bar
 	void DrawMessages();
 	void DrawHealthBar();
+	void DrawWidgets();
 	// Draw to the HUD
 	virtual void DrawHUD() override;
 };

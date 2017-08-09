@@ -51,6 +51,6 @@ void ANPC::Prox_Implementation(class UPrimitiveComponent* OverlappedComp, AActor
 	if (PController)
 	{
 		AMyHUD * hud = Cast<AMyHUD>(PController->GetHUD());
-		hud->AddMessage(Message(NPCName + FString(" : ") + NPCMessage, 5.f, FColor::White, FColor::Black));
+		hud->AddMessage(Message(Face, NPCName + FString(" : ") + NPCMessage, 5.f, FColor::White, FColor::Black));
 	}
 }

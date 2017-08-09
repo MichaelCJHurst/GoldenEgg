@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MyHUD.h"
+#include "Avatar.h"
 
 void AMyHUD::DrawMessages()
 {
@@ -50,6 +51,7 @@ void AMyHUD::DrawHUD()
 	// Draw the messages and health bar
 	DrawMessages();
 	DrawHealthBar();
+	DrawWidgets();
 }
 
 void AMyHUD::DrawHealthBar()
@@ -65,7 +67,38 @@ void AMyHUD::DrawHealthBar()
 		Canvas->SizeY - barHeight - barMargin, barWidth*percHp, barHeight);
 }
 
+void AMyHUD::DrawWidgets()
+{
+	for (int c = 0; c < widgets.Num(); c++)
+	{
+		DrawTexture(widgets[c].icon.tex, widgets[c].pos.X, widgets[c].pos.Y, widgets[c].size.X, widgets[c].size.Y, 0, 0, 1, 1);
+		DrawText(widgets[c].icon.name, FLinearColor::Yellow, widgets[c].pos.X, widgets[c].pos.Y, hudFont, .6f, false);
+	}
+}
+
 void AMyHUD::AddMessage(Message msg)
 {
 	messages.Add(msg);
+}
+
+void AMyHUD::AddWidget(Widget widget)
+{
+	// Find the position of the widget based on the grid
+	FVector2D start(200, 200), pad(12, 12);
+	widget.size = FVector2D(100, 100);
+	widget.pos = start;
+	// compute the position
+	for (int c = 0; c < widgets.Num(); c++)
+	{
+		// Move the position to the right a bit
+		widget.pos.X += widget.size.X + pad.X;
+		// If there is no more room to the right, jump to the next line
+		if (widget.pos.X + widget.size.X > dims.X)
+		{
+			widget.pos.X = start.X;
+			widget.pos.Y += widget.size.Y + pad.Y;
+		}
+	}
+	// Add the widget
+	widgets.Add(widget);
 }

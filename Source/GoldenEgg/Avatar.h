@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "MyHUD.h"
 #include "Components/InputComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
@@ -26,10 +27,20 @@ public:
 		float Health;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerProperties)
 		float MaxHealth;
+	// A map for the player's backpack
+	TMap<FString, int> Backpack;
+	// The icons for the items in the backpack
+	TMap<FString, UTexture2D*> Icons;
+	// A flag for if the inventory is showing
+	bool inventoryShowing;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	// Toggles the inventory
+	void ToggleInventory();
+	// Member function for letting the player pick an item up
+	void Pickup(FString Name, int32 Quantity, UTexture2D* Icon);
 	// mouse movement
 	void Pitch(float amount);
 	void Yaw(float yaw);
