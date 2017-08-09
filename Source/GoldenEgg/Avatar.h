@@ -39,6 +39,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// Toggles the inventory
 	void ToggleInventory();
+	// If the mouse button is clicked
+	void MouseClicked();
 	// Member function for letting the player pick an item up
 	void Pickup(FString Name, int32 Quantity, UTexture2D* Icon);
 	// mouse movement

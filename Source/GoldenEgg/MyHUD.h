@@ -90,6 +90,11 @@ struct Widget
 	{
 		return pos.Y + size.Y;
 	}
+
+	bool hit(FVector2D p)
+	{
+		return p.X > left() && p.X < right() && p.Y > top() && p.Y < bottom();
+	}
 };
 /**
  * 
@@ -102,11 +107,16 @@ class GOLDENEGG_API AMyHUD : public AHUD
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HUDFont)
 		UFont* hudFont;
+	// The held widget
+	Widget* heldWidget;
 	// An array of messages to display
 	TArray<Message> messages;
 	TArray<Widget> widgets;
 	// This is for the screen dimensions
 	FVector2D dims;
+	// When the mouse is clicked
+	void MouseClicked();
+	void MouseMoved();
 	// Add a message and widget
 	void AddMessage(Message msg);
 	void AddWidget(Widget widget);

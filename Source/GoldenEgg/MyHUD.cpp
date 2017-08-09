@@ -102,3 +102,40 @@ void AMyHUD::AddWidget(Widget widget)
 	// Add the widget
 	widgets.Add(widget);
 }
+
+void AMyHUD::MouseClicked()
+{
+	FVector2D mouse;
+	APlayerController* PController = GetWorld()->GetFirstPlayerController();
+	PController->GetMousePosition(mouse.X, mouse.Y);
+	heldWidget = NULL;
+	// See if the mouse position hits any widgets
+	for (int c = 0; c < widgets.Num(); c++)
+	{
+		if (widgets[c].hit(mouse))
+		{
+			heldWidget = &widgets[c];
+			return;
+		}
+	}
+}
+
+void AMyHUD::MouseMoved()
+{
+	static FVector2D lastMouse;
+	FVector thisMouse, dMouse;
+	APlayerController* PController = GetWorld()->GetFirstPlayerController();
+	PController->GetMousePosition(thisMouse.X, thisMouse.Y);
+	dMouse.X = thisMouse.X - lastMouse.X;
+	dMouse.Y = thisMouse.Y - lastMouse.Y;
+	// If the mouse has been held down for more than 0 seconds
+	float time = PController->GetInputKeyTimeDown(EKeys::LeftMouseButton);
+	if (time > 0.f && heldWidget)
+	{
+		// Move the widget by the displacement
+		heldWidget->pos.X += dMouse.X;
+		heldWidget->pos.Y += dMouse.Y;
+	}
+	lastMouse.X = thisMouse.X;
+	lastMouse.Y = thisMouse.Y;
+}

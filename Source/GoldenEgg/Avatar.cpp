@@ -30,6 +30,8 @@ void AAvatar::Tick(float DeltaTime)
 void AAvatar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	// Bind mouse clicking
+	InputComponent->BindAction("MouseClickedLMB", IE_Pressed, this, &AAvatar::MouseClicked);
 	// Bind the inventory stuff
 	InputComponent->BindAction("Inventory", IE_Pressed, this, &AAvatar::ToggleInventory);
 	// Bind the mouse movement
@@ -93,11 +95,23 @@ void AAvatar::ToggleInventory()
 	}
 }
 
+// If the mouse is clicked
+void AAvatar::MouseClicked()
+{
+	APlayerController* PController = GetWorld()->GetFirstPlayerController();
+	AMyHUD* hud = Cast<AMyHUD>(PController->GetHUD());
+	hud->MouseClicked();
+}
+
 // Pitch
 void AAvatar::Pitch(float amount)
 {
 	if (inventoryShowing)
 	{
+		// Pass the input to the HUD
+		APlayerController* PController = GetWorld()->GetFirstPlayerController();
+		AMyHUD* hud = Cast<AMyHUD>(PController->GetHUD());
+		hud->MouseMoved();
 		return;
 	}
 	AddControllerYawInput(200.f * amount * GetWorld()->GetDeltaSeconds());
@@ -108,6 +122,10 @@ void AAvatar::Yaw(float amount)
 {
 	if (inventoryShowing)
 	{
+		// Pass the input to the HUD
+		APlayerController* PController = GetWorld()->GetFirstPlayerController();
+		AMyHUD* hud = Cast<AMyHUD>(PController->GetHUD());
+		hud->MouseMoved();
 		return;
 	}
 	AddControllerPitchInput(200.f * amount * GetWorld()->GetDeltaSeconds());
