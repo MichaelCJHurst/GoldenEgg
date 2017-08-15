@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Avatar.h"
 #include "Monster.h"
-
+#include "Avatar.h"
 
 // Sets default values
 AMonster::AMonster(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -46,4 +45,10 @@ void AMonster::Tick(float DeltaTime)
 	// Find the player
 	FVector toPlayer = avatar->GetActorLocation() - GetActorLocation();
 	toPlayer.Normalize();
+	// Move towards the player
+	AddMovementInput(toPlayer, Speed * DeltaTime);
+	// Face the player
+	FRotator toPlayerRotation = toPlayer.Rotation();
+	toPlayerRotation.Pitch = 0;
+	RootComponent->SetWorldRotation(toPlayerRotation);
 }
