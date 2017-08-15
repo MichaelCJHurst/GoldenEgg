@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Avatar.h"
 #include "Monster.h"
 
 
@@ -35,5 +36,14 @@ void AMonster::BeginPlay()
 void AMonster::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	// Move towards the player
+	AAvatar* avatar = Cast<AAvatar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	// If no avatar was found, return
+	if (!avatar)
+	{
+		return;
+	}
+	// Find the player
+	FVector toPlayer = avatar->GetActorLocation() - GetActorLocation();
+	toPlayer.Normalize();
 }
