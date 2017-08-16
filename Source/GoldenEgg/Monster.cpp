@@ -44,7 +44,13 @@ void AMonster::Tick(float DeltaTime)
 	}
 	// Find the player
 	FVector toPlayer = avatar->GetActorLocation() - GetActorLocation();
-	toPlayer.Normalize();
+	float distanceToPlayer = toPlayer.Size();
+	// If the player is out of range, return
+	if (distanceToPlayer > SightSphere->GetScaledSphereRadius())
+	{
+		return;
+	}
+	toPlayer /= distanceToPlayer;
 	// Move towards the player
 	AddMovementInput(toPlayer, Speed * DeltaTime);
 	// Face the player
